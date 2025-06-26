@@ -1,0 +1,127 @@
+<div class="row">
+    <div class="col-md-3">
+        <div class="card card-info">
+            <div class="card-header">
+                <h3 class="card-title">Lựa chọn</h3>
+            </div>
+            <form action="{$base_url}suaca/overtime" method="post" id="form">
+                <div class="card-body">
+                    <!-- Date and time range -->
+                    <div class="form-group">
+                        <label>Ngày giờ:</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="far fa-clock"></i></span>
+                            </div>
+                            <input type="text" class="form-control float-right" name="datetime" id="reservationtime">
+                        </div>
+                        <!-- /.input group -->
+                    </div>
+                    <div class="form-group">
+                        <label>Số phút:</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="far fa-clock"></i></span>
+                            </div>
+                            <input type="number" 
+                            class="form-control float-right" 
+                            name="max_minute" id="max_minute" value="{$max_minute}">
+                        </div>
+                        <!-- /.input group -->
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">LÔ</i></span>
+                            </div>
+                            <select class="form-control" name="lo_id" id="lo_id">
+                                <option value="">Tất cả</option>
+                                {foreach $lohang as $lo}
+                                <option value="{$lo->lo_id}" {if $lo_id eq $lo->lo_id}selected{/if}>{$lo->lo_id}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                    <div class="btn-group btn-block">
+                    <button type="submit" class="btn btn-info btn-sm" name="statistic">Thống kê</button>
+                    <button type="submit" class="btn btn-success btn-sm" name="export">Xuất file</button>
+                    </div>
+                </div>
+                <!-- /.card-footer -->
+            </form>
+        </div>
+        
+    </div><!-- ./col-md-3-->
+    <div class="col-md-9">
+        <div class="card card-info">
+            <div class="card-header">
+                <h3 class="card-title">
+                    Kết quả
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                <table class="table table-hover table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr style="font-weight: bold;" align="center">
+                            <td width="10%">Mã CN</td>
+                            <td>Công nhân</td>
+                            <td width="10%">Mã SP</td>
+                            <td>Sản phẩm</td>
+                            <td width="10%">KL vào</td>
+                            <td width="10%">KL ra</td>
+                            <td width="10%">Định mức</td>
+                            <td width="10%">TG vào</td>
+                            <td width="10%">TG ra</td>
+                            <td width="10%">TG hoàn thành</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {$i=1}
+                        {foreach $result as $rs}
+                        <tr>
+                            <td width="10%">{$rs.worker_id}</td>
+                            <td>{$rs.worker_name}</td>
+                            <td width="10%">{$rs.product_id}</td>
+                            <td>{$rs.product_name}</td>
+                            <td width="10%">{$rs.weight_in}</td>
+                            <td width="10%">{$rs.weight_out}</td>
+                            <td width="10%">{$rs.dinh_muc}</td>
+                            <td width="10%">{$rs.time_in}</td>
+                            <td width="10%">{$rs.time_out}</td>
+                            <td width="10%">{$rs.time_finish}</td>
+                        </tr>
+                        {/foreach}
+                    </tbody>
+                    
+                </table>
+            </div>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+
+            </div>
+            <!-- /.card-footer -->
+        </div>
+    </div><!-- ./col-md-8-->
+</div>
+<script>
+    $(document).ready(function() {
+        $('#lo_id').select2();
+        $('#dataTable').dataTable();
+        $('#reservationtime').daterangepicker({
+            timePicker: true,
+            startDate: '{$startDate}',
+            endDate: '{$endDate}',
+            timePicker24Hour:true,
+            timePickerIncrement: 1,
+            locale: {
+                format: 'DD/MM/YYYY HH:mm A'
+            }
+        })
+        
+    });
+</script>

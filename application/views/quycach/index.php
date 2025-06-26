@@ -1,0 +1,182 @@
+<div class="row">
+  <div class="col-md-3">
+    <div class="card card-info">
+      <div class="card-header">
+        <h3 class="card-title">Thêm thủ công</h3>
+      </div>
+      <form action="{$base_url}quycach/insert" method="post">
+        <div class="card-body">
+          {if $mes neq ""}
+          <p class="mb-0" style="color: red;">{$mes}</p>
+          {/if}
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" id="quycach_id" name="quycach_id" required maxlength="20" placeholder="Mã quy cách" {literal}pattern="[A-Za-z0-9-_]{3,}"{/literal}>
+          </div>
+          
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" id="quycach_name" name="quycach_name" required maxlength="20" placeholder="Tên quy cách">
+          </div>
+          <div class="input-group mb-3">
+            <input type="number" class="form-control" id="netweight" name="netweight" required step="0.05" value="0.0">
+          </div>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Ghi chú" name="note">
+          </div>
+          <div class="input-group mb-3">
+             <button type="submit" class="btn btn-success btn-sm btn-block">Thêm</button>
+          </div>
+          <!-- /input-group -->
+        </div>
+        <!-- /.card-body -->
+      </form>
+    </div>
+    <!-- card-info-->
+    <div class="card card-info">
+      <div class="card-header">
+        <h3 class="card-title">Thêm từ Excel</h3>
+      </div>
+      <form action="{$base_url}quycach/import" method="post" enctype="multipart/form-data">
+        <div class="card-body">
+          <div class="form-group">
+            <div class="input-group">
+              <input type="file" class="form-control" id="file_xls" name="file_xls" placeholder="Chọn file excel chứa dữ liệu" accept=".xls" required>
+            </div>
+            <div class="input-group">
+              <a href="{$base_url}quycach.xls">Tải mẫu</a>
+            </div>
+            
+          </div>
+          <!-- /input-group -->
+          <div class="form-group">
+            <label>
+              <input type="checkbox" name="thaythe" value="1">Thay thế
+            </label>
+          </div>
+          <div class="form-group">
+             <button type="submit" class="btn btn-success btn-sm btn-block" name="import">Thêm</button>
+            </div>
+        </div>
+        <!-- /.card-body -->
+       
+      </form>
+    </div>
+    <!-- card-info-->
+  </div><!-- ./col-md-3-->
+  <div class="col-md-9">
+    <div class="card card-info">
+      <div class="card-header">
+        <h3 class="card-title">Danh sách quy cách</h3>
+      </div>
+        <div class="card-body">
+          <div class="table-responsive">
+          <table class="table table-hover table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                  <tr style="font-weight: bold;" align="center">
+                    <td width="3%">STT</td>
+                    <!-- <td width="3%">
+                      <input type="checkbox" name="checkall" id="checkall">
+                    </td> -->
+                    <td width="15%">Mã quy cách</td>
+                    <td width="15%">Tên quy cách</td>
+                    <td width="15%">Net</td>
+                    <td>Ghi chú</td>
+                    <td width="15%">Chức năng</td>
+                  </tr>
+                </thead>
+              {$i=1}
+              {foreach $quycach as $bk}
+                <tr align="center">
+                  <td>{$i++}</td>
+                  <td>{$bk->quycach_id}</td>
+                  <td>{$bk->quycach_name}</td>
+                  <td>{$bk->netweight}</td>
+                  <td>{$bk->note}</td>
+                  <td>
+                    <a href="{$base_url}quycach/card/{$bk->quycach_id}">
+                      <i class="fas fa-credit-card">
+                      </i>
+                    </a>
+                    <a style="color: #17a2b8" href="#" data-toggle="modal" data-target="#update{$bk->quycach_id}" style="cursor: pointer;" alt="Điều chỉnh">
+                        <i class="fas fa-pencil-alt">
+                        </i>
+                    </a>
+                    <a style="color: #da251d" href="{$base_url}quycach/delete/{$bk->quycach_id}" onclick="return confirm('Bạn có chắc chắn xóa không?');">
+                        <i class="fas fa-trash">
+                        </i>
+                    </a>
+                  </td>
+                </tr>
+              {/foreach}
+            </table>
+            </div>
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
+           <form action="{$base_url}quycach/dongbo" method="post">
+            <div class="form-group">
+                <button type="submit" name="import" class="btn btn-success btn-sm btn-block">Đồng bộ</button>
+            </div>
+          </form>
+        </div>
+        <!-- /.card-footer -->
+    </div>
+    <!-- card-info-->
+  </div><!-- ./col-md-9-->
+</div>
+{foreach $quycach as $bk}
+<div class="modal fade" id="update{$bk->quycach_id}">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Điều chỉnh</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form class="form-horizontal" method="post" name="updatequycach" action="{$base_url}quycach/update">
+        <input type="hidden" name="old_quycach_id" value="{$bk->quycach_id}">
+        <div class="modal-body">
+          <div class="form-group row">
+            <label for="new_quycach_id" class="col-sm-2 col-form-label">Mã:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="new_quycach_id{$bk->quycach_id}" name="new_quycach_id" required maxlength="20" value="{$bk->quycach_id}" {literal}pattern="[A-Za-z0-9+-_]{2,}"{/literal}>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="new_quycach_id" class="col-sm-2 col-form-label">Tên:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="quycach_name{$bk->quycach_id}" name="quycach_name" required maxlength="20" value="{$bk->quycach_name}">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="netweight" class="col-sm-2 col-form-label">Net:</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control" id="netweight{$bk->quycach_id}" name="netweight" required value="{$bk->netweight}" step="0.1">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="note" class="col-sm-2 col-form-label">Ghi chú:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" placeholder="Ghi chú" name="note" id="note{$bk->quycach_id}" value="{$bk->note}">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Đóng</button>
+          <button type="submit" class="btn btn-primary btn-sm" id="capnhat{$bk->quycach_id}">Cập nhật</button>
+        </div>
+      </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+{/foreach}
+<script>
+  $(document).ready(function() {
+    $("#quycach_id").focus();
+    $('#dataTable').DataTable({
+        stateSave: true
+    });
+  });
+</script>

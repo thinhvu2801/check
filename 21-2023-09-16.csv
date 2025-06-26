@@ -1,0 +1,5 @@
+﻿program_id,batch,num_pieces,size,count_combine,total_weight,avg_combine,time_run,note
+3,1100-1400,54,120-190,6,7261.0,1210.2,09:22:44-09:27:18,"2reel (125-170) 2cccc (86-125) 2def (125-170) 2age (86-125)  120-190"
+,"1.Under size",86,,24,15931,,,"2reel (125-170) 2cccc (86-125) 2def (125-170) 2age (86-125)  120-190"
+,"2.Over size",53,,17,5466,,,"2reel (125-170) 2cccc (86-125) 2def (125-170) 2age (86-125)  120-190"
+,"4.Full scale <AVG",5,,1,53,,,"2reel (125-170) 2cccc (86-125) 2def (125-170) 2age (86-125)  120-190"

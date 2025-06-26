@@ -1,0 +1,59 @@
+<?php /* Smarty version Smarty-3.1.16, created on 2024-12-19 04:47:32
+         compiled from "D:\xampp\htdocs\htdocsbentre\application\views\card\rfid_status.php" */ ?>
+<?php /*%%SmartyHeaderCode:2086877667639754444022-65424778%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+$_valid = $_smarty_tpl->decodeProperties(array (
+  'file_dependency' => 
+  array (
+    '00ccfa33380af34b19061d4e40e127447d53d5ce' => 
+    array (
+      0 => 'D:\\xampp\\htdocs\\htdocsbentre\\application\\views\\card\\rfid_status.php',
+      1 => 1676718040,
+      2 => 'file',
+    ),
+  ),
+  'nocache_hash' => '2086877667639754444022-65424778',
+  'function' => 
+  array (
+  ),
+  'variables' => 
+  array (
+    'status' => 0,
+    'i' => 0,
+    'rs' => 0,
+  ),
+  'has_nocache_code' => false,
+  'version' => 'Smarty-3.1.16',
+  'unifunc' => 'content_67639754bc9a59_99219878',
+),false); /*/%%SmartyHeaderCode%%*/?>
+<?php if ($_valid && !is_callable('content_67639754bc9a59_99219878')) {function content_67639754bc9a59_99219878($_smarty_tpl) {?><?php if (!is_callable('smarty_modifier_date_format')) include 'D:\\xampp\\htdocs\\htdocsbentre\\application\\third_party\\Smarty-3.1.16\\libs\\plugins\\modifier.date_format.php';
+?><div class="table-responsive">
+    <table class="table table-hover table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+            <tr style="font-weight: bold;" align="center">
+                <td width="3%">STT</td>
+                <td>Client name</td>
+                <td>Ngày</td>
+                <td>Giờ cập nhật</td>
+            </tr>
+        </thead>
+        <tbody>
+            <?php $_smarty_tpl->tpl_vars['i'] = new Smarty_variable(1, null, 0);?>
+            <?php  $_smarty_tpl->tpl_vars['rs'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['rs']->_loop = false;
+ $_from = $_smarty_tpl->tpl_vars['status']->value; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
+foreach ($_from as $_smarty_tpl->tpl_vars['rs']->key => $_smarty_tpl->tpl_vars['rs']->value) {
+$_smarty_tpl->tpl_vars['rs']->_loop = true;
+?>
+            <tr>
+                <td align="center"><?php echo $_smarty_tpl->tpl_vars['i']->value++;?>
+</td>
+                <td align="center"><?php echo $_smarty_tpl->tpl_vars['rs']->value->client_name;?>
+</td>
+                <td align="center"><?php echo smarty_modifier_date_format($_smarty_tpl->tpl_vars['rs']->value->date,"d/m/Y");?>
+</td>
+                <td align="center"><?php echo $_smarty_tpl->tpl_vars['rs']->value->time;?>
+</td>
+            </tr>
+            <?php } ?>
+        </tbody>
+    </table>
+</div><?php }} ?>
