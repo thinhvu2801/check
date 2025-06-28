@@ -110,17 +110,15 @@
         }
 
         $.post(base_url + "changedb/reset_data", function (response) {
-            console.log("Reset response:", response);
             $('#reset-message').html(`
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     Reset dữ liệu thành công! Đang chuyển hướng...
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
                 </div>
             `);
-            // Chờ 2 giây rồi redirect
             setTimeout(function () {
                 window.location.href = base_url + "card/index";
-            }, 2000);
+            }, 1000);
         }).fail(function (xhr) {
             console.error("Reset failed:", xhr.responseText);
             $('#reset-message').html(`
