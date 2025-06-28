@@ -34,11 +34,24 @@
                         </div>
                     </form>
                 </div>
+                <div class="card card-info">
+                    <div class="card-header">
+                        <h3 class="card-title">Reset dữ liệu thẻ</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="pr-2 pt-2">
+                            <button type="button" class="btn btn-danger btn-sm" id="reset-btn" onclick="resetData()">
+                            Reset dữ liệu
+                            </button>
+                        </div>
+                        <div id="reset-message" class="mt-2"></div>
+                    </div>
+                </div>
             </div>
+
         </div>
     </div>
 </section>
-
 <script>
     var base_url = "{$base_url}";
 </script>
@@ -88,6 +101,35 @@
         console.log("Pick: ", dbName);
         $('#database_name').val(dbName);
         $('#db-error').hide();
+    }
+
+    function resetData() {
+        if (!confirm('Bạn có chắc chắn muốn reset dữ liệu?')) {
+            console.log("Reset đã bị hủy bởi người dùng.");
+            return;
+        }
+
+        $.post(base_url + "changedb/reset_data", function (response) {
+            console.log("Reset response:", response);
+            $('#reset-message').html(`
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    Reset dữ liệu thành công! Đang chuyển hướng...
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                </div>
+            `);
+            // Chờ 2 giây rồi redirect
+            setTimeout(function () {
+                window.location.href = base_url + "card/index";
+            }, 2000);
+        }).fail(function (xhr) {
+            console.error("Reset failed:", xhr.responseText);
+            $('#reset-message').html(`
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    Reset thất bại. Vui lòng thử lại!
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                </div>
+            `);
+        });
     }
 </script>
 {/literal}

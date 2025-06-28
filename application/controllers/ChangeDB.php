@@ -65,4 +65,12 @@ class ChangeDB extends CI_Controller
         sqlsrv_close($conn);
         echo json_encode(['status' => 'success', 'data' => $databases]);
     }
+    public function reset_data()
+    {
+        $this->load->database();
+        $this->db->trans_start();
+        $this->db->query('INSERT INTO RFID_check2 SELECT * FROM RFID_check');
+        $this->db->query('DELETE FROM RFID_check');
+        $this->db->trans_complete();
+    }
 }

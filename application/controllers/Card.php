@@ -71,14 +71,4 @@ class Card extends CI_Controller {
         $status=$this->MCard->Get_RFID_Status(1);
         $this->view->parse("card/rfid_status",array('status' =>$status));
     }
-    public function reset_data()
-    {
-        $this->load->database(); 
-        $this->db->trans_start();
-        $this->db->query('INSERT INTO RFID_check2 SELECT * FROM RFID_check');
-        $this->db->query('DELETE FROM RFID_check');
-        $this->db->trans_complete();
-
-        redirect('card/index'); 
-    }
 }
