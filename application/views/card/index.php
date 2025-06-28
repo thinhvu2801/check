@@ -6,9 +6,15 @@
       </div>
       <!--card-header-->
       <div class="card-body">
-        <div class="form-group row">
+        <div class="form-group row justify-content-end ">
           <div class="col-sm-12">
           <input type="text" id="card_id" name="card_id" class="form-control" maxlength="10">
+          <div id="reset-message" class="mt-2"></div>
+          </div>
+          <div class="pr-2 pt-2 text-right">
+            <button type="button" class="btn btn-danger btn-sm" id="reset-btn">
+              Reset dữ liệu
+            </button>
           </div>
         </div>
         <!-- <div class="form-group row">
@@ -60,6 +66,25 @@
           $("#card_id").val("");
         });
       }
+    $('#reset-btn').click(function () {
+        if (!confirm('Bạn có chắc chắn muốn reset dữ liệu?')) return;
+        $.post("{$base_url}card/reset_data", function (response) {
+          $('#reset-message').html(`
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              Reset dữ liệu thành công!
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+            </div>
+          `);
+        }).fail(function (xhr) {
+          console.error("Reset failed:", xhr.responseText);
+          $('#reset-message').html(`
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              Reset thất bại. Vui lòng thử lại!
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+            </div>
+          `);
+        });
+      });
     });
-  });
+});
 </script>
