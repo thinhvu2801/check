@@ -34,15 +34,25 @@ class MGroup extends CI_Model{
 	public function Insert($data){
 		$this->db->insert($this->table, $data);
 	}
-	public function Update($data,$group_id){
+	public function Update($data, $group_id){
 		$this->db->where('group_id', $group_id);
-      	$this->db->update($this->table, $data);
+		$query = $this->db->get($this->table);
+		if ($query->num_rows() > 0) {
+			$this->db->where('group_id', $group_id);
+			$this->db->update($this->table, $data);
+			$this->MLog->log_action($this->table, array_merge($data, ['group_id' => $group_id]), 'UPDATE', 'system');
 
-		$this->db->where('group_id', $group_id);
-		$data = array(
-			'group_id' => $data["group_id"]
-		);
-      	$this->db->update("Worker", $data);
+			$this->db->where('group_id', $group_id);
+			$worker_data = array(
+				'group_id' => $data["group_id"]
+			);
+			$this->db->update("Worker", $worker_data);
+			$this->MLog->log_action('Worker', array_merge($worker_data, ['group_id' => $group_id]), 'UPDATE', 'system');
+
+			return true;
+		} else {
+			return false;
+		}
 	}
 	public function Delete($group_id){
 		$this->db->where('group_id', $group_id);
